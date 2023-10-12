@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		AE24AA6A2AD77C890059D43A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AE24AA692AD77C890059D43A /* main.cpp */; };
+		AE3F15BD2AD7934600888E8A /* libftxui-component.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3F15BA2AD7934600888E8A /* libftxui-component.a */; };
+		AE3F15BE2AD7934600888E8A /* libftxui-dom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3F15BB2AD7934600888E8A /* libftxui-dom.a */; };
+		AE3F15BF2AD7934600888E8A /* libftxui-screen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AE3F15BC2AD7934600888E8A /* libftxui-screen.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		AE24AA662AD77C890059D43A /* CommanderChris */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CommanderChris; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE24AA692AD77C890059D43A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		AE3F15BA2AD7934600888E8A /* libftxui-component.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libftxui-component.a"; path = "../playground/FTXUI/build/libftxui-component.a"; sourceTree = "<group>"; };
+		AE3F15BB2AD7934600888E8A /* libftxui-dom.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libftxui-dom.a"; path = "../playground/FTXUI/build/libftxui-dom.a"; sourceTree = "<group>"; };
+		AE3F15BC2AD7934600888E8A /* libftxui-screen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libftxui-screen.a"; path = "../playground/FTXUI/build/libftxui-screen.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +38,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE3F15BD2AD7934600888E8A /* libftxui-component.a in Frameworks */,
+				AE3F15BE2AD7934600888E8A /* libftxui-dom.a in Frameworks */,
+				AE3F15BF2AD7934600888E8A /* libftxui-screen.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +52,7 @@
 			children = (
 				AE24AA682AD77C890059D43A /* CommanderChris */,
 				AE24AA672AD77C890059D43A /* Products */,
+				AE3F15B92AD7934600888E8A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +70,16 @@
 				AE24AA692AD77C890059D43A /* main.cpp */,
 			);
 			path = CommanderChris;
+			sourceTree = "<group>";
+		};
+		AE3F15B92AD7934600888E8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AE3F15BA2AD7934600888E8A /* libftxui-component.a */,
+				AE3F15BB2AD7934600888E8A /* libftxui-dom.a */,
+				AE3F15BC2AD7934600888E8A /* libftxui-screen.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,9 +179,12 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				EAGER_LINKING = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FUSE_BUILD_SCRIPT_PHASES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -176,10 +199,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/Users/markorenic/School/3B/se390/playground/FTXUI/include/**";
+				LIBRARY_SEARCH_PATHS = "/Users/markorenic/School/3B/se390/playground/FTXUI/build/**";
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -217,9 +243,12 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EAGER_LINKING = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FUSE_BUILD_SCRIPT_PHASES = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -228,9 +257,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/Users/markorenic/School/3B/se390/playground/FTXUI/include/**";
+				LIBRARY_SEARCH_PATHS = "/Users/markorenic/School/3B/se390/playground/FTXUI/build/**";
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -238,16 +270,24 @@
 		AE24AA6E2AD77C890059D43A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				FUSE_BUILD_SCRIPT_PHASES = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		AE24AA6F2AD77C890059D43A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				FUSE_BUILD_SCRIPT_PHASES = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
