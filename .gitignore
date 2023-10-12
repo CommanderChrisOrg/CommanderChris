@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+CommanderChris.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+CommanderChris.xcodeproj/project.xcworkspace/xcuserdata/markorenic.xcuserdatad/WorkspaceSettings.xcsettings
+CommanderChris.xcodeproj/xcshareddata/xcschemes/CommanderChris.xcscheme
