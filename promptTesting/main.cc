@@ -102,7 +102,7 @@ int main() {
             finalPrompt = "For checking file system status or disk usage, what would be the exact terminal command for: '" + userQuestion + "'? Just the command, please.Do not include any additional text or explanations.";
             break;
         case 5:  // File Permissions & Ownership
-            finalPrompt = "In terms of adjusting file permissions or ownership via the terminal, how would one execute the task: '" + userQuestion + "'? Just the command, please.Do not include any additional text or explanations.";
+            finalPrompt = "In terms of adjusting file permissions or ownership via the terminal, how would one execute the task: '" + userQuestion + "'? Just the command, please. Do not include any additional text or explanations.";
             break;
         case 6:  // Archiving & Compression
             finalPrompt = "If someone wanted to achieve the goal: '" + userQuestion + "' in the context of archiving or compression, what's the straight-to-the-point terminal command?  Just the command please.Do not include any additional text or explanations.";
