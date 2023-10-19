@@ -1,36 +1,67 @@
-### How to build FTXUI on Mac
+# CommanderChris - Build and Run Guide
+
+Welcome to CommanderChris! This guide will walk you through the steps to build and run the application.
+
+## Prerequisites
+
+Before you begin, make sure you have the following prerequisites installed on your system:
+
+- CMake
+- Make
+- [Other dependencies, if any]
+
+## Getting Started
+
+1. Clone this repository to your local machine:
+
+   ```bash
+   git clone https://github.com/markorenic/CommanderChris.git
+   ```
+
+2. Navigate to the project's root directory:
+
+   ```bash
+   cd CommanderChris
+   ```
+
+## Build and Run
+
+1. Create a build directory and move into it:
+
+   ```bash
+   mkdir build
+   cd build
+   ```
+
+2. Configure the project using CMake:
+
+   ```bash
+   cmake ..
+   ```
+
+3. Build the project with multiple CPU cores (adjust the number as needed):
+
+   ```bash
+   make -j4
+   ```
+
+4. After successfully building the project, navigate to the "target" directory:
+
+   ```bash
+   cd ../target
+   ```
+
+5. Run CommanderChris:
+
+   ```bash
+   ./CommanderChris
+   ```
+
+## Contributing
+
+If you would like to contribute to CommanderChris, please open an issue or submit a pull request on [GitHub](https://github.com/markorenic/CommanderChris).
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
 ```
-git clone https://github.com/ArthurSonzogni/FTXUI.git
-cd FTXUI
-mkdir build && cd build
-cmake ..
-make
-```
-
-1. **Locate the Headers**:
-   
-   After you've built FTXUI from source, the header files should be in the `include` directory of the cloned FTXUI repository. 
-   
-   The path would look something like this: `/path_to_your_cloned_FTXUI_directory/include`.
-
-2. **Locate the Libraries**:
-
-   The libraries generated after building FTXUI should be in the `build` directory (or another specified directory if you chose a custom build location). 
-
-   The path for libraries might look like this: `/path_to_your_cloned_FTXUI_directory/build`.
-
-3. **Add Paths to Xcode**:
-
-   - **Header Search Paths**:
-     - In Xcode, select your project in the Project Navigator.
-     - Go to the target's "Build Settings".
-     - Search for "Header Search Paths".
-     - Add the path from step 1.
-   
-   - **Library Search Paths**:
-     - Still in the "Build Settings" tab, search for "Library Search Paths".
-     - Add the path from step 2.
-
-5. **Link the Libraries**:
-
-   After setting the paths, ensure you link the required libraries in the "Link Binary with Libraries" phase.
