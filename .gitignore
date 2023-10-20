@@ -34,3 +34,7 @@ CommanderChris.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcse
 CommanderChris.xcodeproj/project.xcworkspace/xcuserdata/markorenic.xcuserdatad/WorkspaceSettings.xcsettings
 CommanderChris.xcodeproj/xcshareddata/xcschemes/CommanderChris.xcscheme
 CommanderChris/build
+.DS_Store
+CommanderChris/.DS_Store
+CommanderChris/src/.DS_Store
+

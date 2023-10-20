@@ -22,7 +22,7 @@ project(CommanderChris
   VERSION 1.0.0
 )
 
-add_executable(CommanderChris src/main.cpp)
+add_executable(CommanderChris src/main.cpp src/scroller.cpp)
 target_include_directories(CommanderChris PRIVATE src)
 
 target_link_libraries(CommanderChris
