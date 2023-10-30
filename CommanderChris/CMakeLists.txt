@@ -22,11 +22,15 @@ project(CommanderChris
   VERSION 1.0.0
 )
 
-add_executable(CommanderChris src/main.cpp src/scroller.cpp)
+add_executable(CommanderChris src/main.cpp src/scroller.cpp src/gpt.cpp)
 target_include_directories(CommanderChris PRIVATE src)
+
+find_package(CURL REQUIRED)
+include_directories(${CURL_INCLUDE_DIR})
 
 target_link_libraries(CommanderChris
   PRIVATE ftxui::screen
   PRIVATE ftxui::dom
   PRIVATE ftxui::component # Not needed for this example.
+  ${CURL_LIBRARIES}
 )
