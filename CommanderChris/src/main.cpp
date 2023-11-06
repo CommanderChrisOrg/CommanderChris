@@ -47,7 +47,7 @@ Element TerminalFrame(std::vector<Element> term_lines, Component &input_cmd){
 Element PromptFrame(std::string prompt_response, Component &input_prompt){
     return vbox({
             text(L"CommanderChris") | bold,
-            text(prompt_response),
+            paragraph(prompt_response),
             input_prompt->Render(),
         }) | flex; 
 }
@@ -56,7 +56,7 @@ void run_term() {
     // Set the placeholder text for the input field.
     std::string cmd_content;
     std::string prompt_content;
-    std::string prompt_response = "Details and content can be added here.";
+    std::string prompt_response = "Response will appear here";
     std::vector<Element> term_lines;
 
     // Create an input component where users can type commands.
@@ -79,7 +79,9 @@ void run_term() {
     opt_prompt.placeholder = "Ask me anything";
     opt_prompt.on_enter = [&]{
         prompt_content = prompt_content.substr(0, prompt_content.length() - 1);
-        prompt_response = "Command: " + getCommandFromPrompt(prompt_content);
+        std::string command = getCommandFromPrompt(prompt_content);
+        if(command.length() == 0) prompt_response = "No Results";
+        else prompt_response = "Command: " + getCommandFromPrompt(prompt_content);
         prompt_content = "";
     };
     Component input_prompt = Input(opt_prompt);
@@ -105,6 +107,7 @@ void run_term() {
 // Main function to run the program.
 int main() {
     run_term();
+    // std::cout << getCommandFromPrompt("How to rename files starting with bob to instead start with alice?") << std::endl;
 
     return 0;
 }
