@@ -109,7 +109,8 @@ void run_term() {
 
 // Main function to run the program.
 int main() {
-    run_term();
+    if(std::getenv("OPENAI_API_KEY")) run_term();
+    else std::cerr << "ERROR: missing OpenAI API key\n\nyou can add your key with: export OPENAI_API_KEY=[your key]" << std::endl;
 
     return 0;
 }
