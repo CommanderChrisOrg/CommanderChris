@@ -81,7 +81,10 @@ void run_term() {
         prompt_content = prompt_content.substr(0, prompt_content.length() - 1);
         std::string command = getCommandFromPrompt(prompt_content);
         if(command.length() == 0) prompt_response = "No Results";
-        else prompt_response = "Command: " + getCommandFromPrompt(prompt_content);
+        else {
+            prompt_response = "Command: " + command;
+            cmd_content = command;
+        }
         prompt_content = "";
     };
     Component input_prompt = Input(opt_prompt);
@@ -107,7 +110,6 @@ void run_term() {
 // Main function to run the program.
 int main() {
     run_term();
-    // std::cout << getCommandFromPrompt("How to rename files starting with bob to instead start with alice?") << std::endl;
 
     return 0;
 }

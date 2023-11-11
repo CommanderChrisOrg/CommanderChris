@@ -20,10 +20,11 @@ std::string queryGPT(const std::string& data) {
         
         struct curl_slist *headers = NULL;
         headers = curl_slist_append(headers, "Content-Type: application/json");
-        headers = curl_slist_append(headers, "Authorization: Bearer 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");  // Replace with your key
+        headers = curl_slist_append(headers, "Authorization: Bearer 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");  // Replace with your key
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
         
         res = curl_easy_perform(curl);
         if(res != CURLE_OK) {
@@ -37,64 +38,52 @@ std::string queryGPT(const std::string& data) {
     return readBuffer;
 }
 
-std::string extractContentFromResponse(const std::string& response) {
-    std::string key = "\"content\": ";
-    size_t startIdx = response.find(key);
-    if (startIdx == std::string::npos) return ""; // Key not found
-
-    startIdx += key.length() + 1; // Move index to start of content value
-
-    // Find the closing quote of the content value
-    size_t endIdx = response.find("\n", startIdx) - 1;
-    if (endIdx == std::string::npos) return ""; // Closing quote not found
-
-    return response.substr(startIdx, endIdx - startIdx); // +1 to skip the opening quote
+std::size_t findAndReplace(std::string &str, std::string toReplace, std::string replaceWith, size_t cur_pos = 0){
+    std::size_t pos = str.find(toReplace, cur_pos);
+    if (pos == std::string::npos) return std::string::npos;
+    str.replace(pos, toReplace.length(), replaceWith);
+    return pos + replaceWith.length();
 }
 
-bool findAndReplace(std::string &str, std::string toReplace, std::string replaceWith){
-    std::size_t pos = str.find(toReplace);
-    if (pos == std::string::npos) return false;
-    str.replace(pos, toReplace.length(), replaceWith);
-    return true;
+void findAndReplaceAll(std::string &str, std::string toReplace, std::string replaceWith){
+    std::size_t pos = 0;
+    while((pos = findAndReplace(str, toReplace, replaceWith, pos)) != std::string::npos);
+}
+
+std::string processPromptString(std::string str){
+    findAndReplaceAll(str, "\"", "\\\"");
+    return str;
 }
 
 std::string processCommandString(std::string str){
-    while(findAndReplace(str, "bash", ""));
-    while(findAndReplace(str, "shell", ""));
-    while(findAndReplace(str, "\\n", ""));
-    while(findAndReplace(str, "\\\"", "\""));
-    while(findAndReplace(str, "$ ", ""));
+    findAndReplaceAll(str, "\\\"", "\"");
+    findAndReplaceAll(str, "bash", "");
+    findAndReplaceAll(str, "shell", "");
+    findAndReplaceAll(str, "\\n", "\n");
     return str;
 }
 
 std::string getCommandFromPrompt(std::string prompt){
-    std::string model_name = "gpt-3.5-turbo";  // Adjust this to your desired model
+    std::string model_name = "gpt-4-1106-preview";  // Adjust this to your desired model
 
-    std::string request_messages = "[{\"role\":\"user\",\"content\":\"" + prompt + "\\nGive me a unix command\"}]";
+    std::string request_messages = "[{\"role\":\"system\",\"content\":\"Please provide the osx command that answers the user's question. The format for your response is\\n\\nAttempts:[potential commands with explanations]\\nFinal Answer:```[command]```\"},{\"role\":\"user\",\"content\":\"" + processPromptString(prompt) + "\"}]";
 
     std::string commandData = "{\n"
     "  \"model\": \"" + model_name + "\",\n"
-    "  \"messages\": " + request_messages + ",\n"
-    "  \"max_tokens\": 200\n"
+    "  \"messages\": " + request_messages + ""
     "}";
 
     std::string commandResponse = queryGPT(commandData);
 
-    std::string refined_request_messages = "[{\"role\":\"user\",\"content\":\"" + prompt + "\\nGive me a unix command\"},{\"role\":\"assistant\",\"content\":\"" + extractContentFromResponse(commandResponse) + "\"},{\"role\":\"user\",\"content\":\"Now act as a unix professional, who is an expert in the field. How would you criticize your reply to the question above and correct its mistakes?\"}]";
+    // Try extracting command within triple backticks
+    size_t answerIdx = commandResponse.find("Final Answer");
+    if(answerIdx == std::string::npos) return "";
 
-    std::string refinedCommandData = "{\n"
-    "  \"model\": \"" + model_name + "\",\n"
-    "  \"messages\": " + refined_request_messages + "\n"
-    "}";
-
-    std::string refinedCommandResponse = queryGPT(refinedCommandData);
-
-    // Try extracting command within backticks
-    size_t startIdx = refinedCommandResponse.find("```") + 3;
+    size_t startIdx = commandResponse.find("```", answerIdx) + 3;
     if(startIdx == std::string::npos) return "";
 
-    size_t endIdx = refinedCommandResponse.find("```", startIdx + 1);
+    size_t endIdx = commandResponse.find("```", startIdx + 1);
     if(endIdx == std::string::npos) return "";
 
-    return processCommandString(refinedCommandResponse.substr(startIdx, endIdx - startIdx));
+    return processCommandString(commandResponse.substr(startIdx, endIdx - startIdx));
 }
