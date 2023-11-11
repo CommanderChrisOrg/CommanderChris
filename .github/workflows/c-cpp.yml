@@ -13,26 +13,26 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # Install any necessary dependencies, e.g., CMake, libcurl4-openssl-dev
+    # Install any necessary dependencies
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev
 
-    # Create build directory
-    - name: Create build directory
-      run: mkdir build && cd build
-
-    # Configure the project using CMake
-    - name: Configure with CMake
-      run: cmake ..
-
-    # Build the project with Make
-    - name: Build with Make
-      run: make -j4
+    # Configure and build the project in one step
+    - name: Configure and Build
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make -j4
 
     # Optional: Add steps for any tests or additional checks
     # - name: Run tests
-    #   run: make test
+    #   run: |
+    #     cd build
+    #     make test
 
     # Optional: Run the executable if needed
     # - name: Run CommanderChris
-    #   run: ./CommanderChris
+    #   run: |
+    #     cd build
+    #     ./CommanderChris
