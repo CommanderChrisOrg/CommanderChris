@@ -15,6 +15,14 @@ if(NOT ftxui_POPULATED)
   add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
+# --- Fetch spdlog -------------------------------------------------------------
+FetchContent_Declare(spdlog
+  GIT_REPOSITORY https://github.com/gabime/spdlog.git
+  GIT_TAG v1.12.0
+)
+
+FetchContent_MakeAvailable(spdlog)
+
 # ------------------------------------------------------------------------------
 
 project(CommanderChris
@@ -31,6 +39,7 @@ include_directories(${CURL_INCLUDE_DIR})
 target_link_libraries(CommanderChris
   PRIVATE ftxui::screen
   PRIVATE ftxui::dom
-  PRIVATE ftxui::component # Not needed for this example.
+  PRIVATE ftxui::component
+  PRIVATE spdlog::spdlog
   ${CURL_LIBRARIES}
 )
