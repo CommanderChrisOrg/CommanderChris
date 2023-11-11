@@ -1,16 +1,15 @@
-# CommanderChris - Build and Run Guide
+# CommanderChris - Build and Run Guide 🚀
 
-Welcome to CommanderChris! This guide will walk you through the steps to build and run the application.
+Welcome to CommanderChris! This guide will walk you through the steps to build and run the application. 🛠️
 
-## Prerequisites
+## Prerequisites 📋
 
 Before you begin, make sure you have the following prerequisites installed on your system:
 
-- CMake
-- Make
-- [Other dependencies, if any]
+- CMake 🔧
+- Make 🛠️
 
-## Getting Started
+## Getting Started 🌟
 
 1. Clone this repository to your local machine:
 
@@ -24,7 +23,7 @@ Before you begin, make sure you have the following prerequisites installed on yo
    cd CommanderChris
    ```
 
-## Build and Run
+## Build and Run 🏗️
 
 1. Create a build directory and move into it:
 
@@ -51,11 +50,10 @@ Before you begin, make sure you have the following prerequisites installed on yo
    ./CommanderChris
    ```
 
-## Contributing
+## Contributing 💡
 
 If you would like to contribute to CommanderChris, please open an issue or submit a pull request on [GitHub](https://github.com/markorenic/CommanderChris).
 
-## License
+## License 📄
 
 This project is licensed under the [MIT License](LICENSE).
-```
