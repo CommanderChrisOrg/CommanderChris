@@ -45,13 +45,7 @@ Before you begin, make sure you have the following prerequisites installed on yo
    make -j4
    ```
 
-4. After successfully building the project, navigate to the "target" directory:
-
-   ```bash
-   cd ../target
-   ```
-
-5. Run CommanderChris:
+4. Run CommanderChris:
 
    ```bash
    ./CommanderChris
