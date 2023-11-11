@@ -1,11 +1,3 @@
-CommanderChris/src/_deps
-CommanderChris/src/CmakeFiles
-CommanderChris/src/CommanderChris
-CommanderChris/src/env.hpp
-.vscode
+build
+*.vscode
 *.DS_Store
-cmake_install.cmake
-CMakeCache.txt
-CPackConfig.cmake
-CPackSourceConfig.cmake
-
