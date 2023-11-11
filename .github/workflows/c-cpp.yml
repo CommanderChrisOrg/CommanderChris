@@ -1,0 +1,38 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    # Install any necessary dependencies, e.g., CMake, libcurl4-openssl-dev
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev
+
+    # Create build directory
+    - name: Create build directory
+      run: mkdir build && cd build
+
+    # Configure the project using CMake
+    - name: Configure with CMake
+      run: cmake ..
+
+    # Build the project with Make
+    - name: Build with Make
+      run: make -j4
+
+    # Optional: Add steps for any tests or additional checks
+    # - name: Run tests
+    #   run: make test
+
+    # Optional: Run the executable if needed
+    # - name: Run CommanderChris
+    #   run: ./CommanderChris
