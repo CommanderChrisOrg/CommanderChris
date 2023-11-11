@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
-#include <regex>
+#include "env.hpp"
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
@@ -20,7 +20,9 @@ std::string queryGPT(const std::string& data) {
         
         struct curl_slist *headers = NULL;
         headers = curl_slist_append(headers, "Content-Type: application/json");
-        headers = curl_slist_append(headers, "Authorization: Bearer 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");  // Replace with your key
+        std::string authorizationHeader = "Authorization: Bearer ";
+        authorizationHeader += OPENAI_API_KEY;
+        headers = curl_slist_append(headers, authorizationHeader.c_str());  // Replace with your key
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
@@ -74,6 +76,8 @@ std::string getCommandFromPrompt(std::string prompt){
     "}";
 
     std::string commandResponse = queryGPT(commandData);
+
+    std::cout << commandResponse << std::endl;
 
     // Try extracting command within triple backticks
     size_t answerIdx = commandResponse.find("Final Answer");
