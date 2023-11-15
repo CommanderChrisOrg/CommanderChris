@@ -42,10 +42,10 @@ std::string get_context() {
 void run_scraper() {
     const std::vector<fs::path> executables = {
         fs::path("get_hardware_macos.sh"),
-        fs::path("get_network_macos.sh"),
-        fs::path("get_processes_macos.sh"),
+        // fs::path("get_network_macos.sh"),
+        // fs::path("get_processes_macos.sh"),
         // fs::path("get_software_linux.sh"),
-        fs::path("get_software_macos.sh")
+        // fs::path("get_software_macos.sh")
     };
 
     std::vector<pid_t> processes;

@@ -41,10 +41,16 @@ Before you begin, make sure you have the following prerequisites installed on yo
 3. Build the project with multiple CPU cores (adjust the number as needed):
 
    ```bash
-   make -j4
+   make
    ```
 
-4. Run CommanderChris:
+4. Copy the scrapers into the same directory as the executable:
+   
+   ```bash
+   cp -r ../src/scrapers scrapers
+   ```
+
+5. Run CommanderChris:
 
    ```bash
    ./CommanderChris
