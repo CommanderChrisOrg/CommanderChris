@@ -13,11 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # Install any necessary dependencies
+    # Install necessary dependencies
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev
+      run: sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev libboost-all-dev
 
-    # Configure and build the project in one step
+    # Configure and build the project
     - name: Configure and Build
       run: |
         mkdir build
@@ -35,4 +35,4 @@ jobs:
     # - name: Run CommanderChris
     #   run: |
     #     cd build
-    #     ./CommanderChris
+    #     ./Chris
