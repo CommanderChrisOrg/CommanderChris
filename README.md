@@ -57,4 +57,4 @@ If you would like to contribute to CommanderChris, please open an issue or submi
 
 ## License 📄
 
-This project is licensed under the [MIT License](LICENSE).
+[TBD]
