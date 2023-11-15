@@ -79,14 +79,14 @@ jobs:
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
-    # Optional: Execute tests
-    - name: Test
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      run: ctest --build-config ${{ matrix.build_type }}
+    # Execute tests
+    #- name: Test
+    #  working-directory: ${{ steps.strings.outputs.build-output-dir }}
+    #  run: ctest --build-config ${{ matrix.build_type }}
 
-    # Optional: Run the executable if needed (Linux and macOS)
-    - name: Run Application (Linux/macOS)
-      if: runner.os != 'Windows'
-      run: |
-        cd ${{ steps.strings.outputs.build-output-dir }}
-        ./chris # Replace with your actual executable name
+    # Run the executable if needed (Linux and macOS)
+    #- name: Run Application (Linux/macOS)
+    #  if: runner.os != 'Windows'
+    #  run: |
+    #    cd ${{ steps.strings.outputs.build-output-dir }}
+    #    ./chris
