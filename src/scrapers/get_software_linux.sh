@@ -1,5 +1,5 @@
 # Output file
-output_file="installed_programs_linux.txt"
+output_file="$1/installed_programs_linux.txt"
 
 # Check for dpkg and use it if it's present
 if command -v dpkg &> /dev/null

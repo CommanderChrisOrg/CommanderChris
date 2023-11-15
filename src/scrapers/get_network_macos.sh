@@ -1,5 +1,5 @@
 # Output file
-output_file="network_info.txt"
+output_file="$1/network_info.txt"
 
 # Clear the file if it already exists
 > "$output_file"

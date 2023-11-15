@@ -7,7 +7,7 @@
 #include <ftxui/component/component_options.hpp>
 #include <ftxui/screen/color.hpp>
 #include "gpt.hpp"
-
+#include "scrap.hpp"
 
 using namespace ftxui;
 
@@ -79,7 +79,7 @@ void run_term() {
     opt_prompt.placeholder = "Ask me anything";
     opt_prompt.on_enter = [&]{
         prompt_content = prompt_content.substr(0, prompt_content.length() - 1);
-        std::string command = getCommandFromPrompt(prompt_content);
+        std::string command = getCommandFromPrompt(get_context(), prompt_content);
         if(command.length() == 0) prompt_response = "No Results";
         else {
             prompt_response = "Command: " + command;
@@ -109,8 +109,11 @@ void run_term() {
 
 // Main function to run the program.
 int main() {
-    if(std::getenv("OPENAI_API_KEY")) run_term();
-    else std::cerr << "ERROR: missing OpenAI API key\n\nyou can add your key with: export OPENAI_API_KEY=[your key]" << std::endl;
-
+    if(!std::getenv("OPENAI_API_KEY")) {
+        std::cerr << "ERROR: missing OpenAI API key\n\nyou can add your key with: export OPENAI_API_KEY=[your key]" << std::endl;
+        return 1;
+    }
+    run_scraper();
+    run_term();
     return 0;
 }

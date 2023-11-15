@@ -1,5 +1,5 @@
 # Output file
-output_file="computer_architecture.txt"
+output_file="$1/computer_architecture.txt"
 
 # Clear the file if it already exists
 > "$output_file"

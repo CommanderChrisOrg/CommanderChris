@@ -30,7 +30,7 @@ project(CommanderChris
   VERSION 1.0.0
 )
 
-add_executable(CommanderChris src/main.cpp src/scroller.cpp src/gpt.cpp)
+add_executable(CommanderChris src/main.cpp src/scroller.cpp src/gpt.cpp src/scrap.cpp)
 target_include_directories(CommanderChris PRIVATE src)
 
 find_package(CURL REQUIRED)

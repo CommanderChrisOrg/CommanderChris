@@ -1,5 +1,5 @@
 # Output file
-output_file="installed_programs_macos.txt"
+output_file="$1/installed_programs_macos.txt"
 
 # Use system_profiler to get a list of installed applications and write to file
 system_profiler SPApplicationsDataType > "$output_file"

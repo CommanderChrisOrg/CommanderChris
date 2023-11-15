@@ -1,0 +1,1 @@
+ps aux > $1/processes.txt
