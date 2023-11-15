@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
+#include "context.hpp"
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
@@ -53,6 +54,7 @@ void findAndReplaceAll(std::string &str, std::string toReplace, std::string repl
 
 std::string processPromptString(std::string str){
     findAndReplaceAll(str, "\"", "\\\"");
+    findAndReplaceAll(str, "\n", "\\n");
     return str;
 }
 
@@ -69,7 +71,7 @@ std::string processCommandString(std::string str){
 std::string getCommandFromPrompt(std::string prompt){
     std::string model_name = "gpt-4-1106-preview";  // Adjust this to your desired model
 
-    std::string request_messages = "[{\"role\":\"system\",\"content\":\"Please provide the osx command that answers the user's question. The format for your response is\\n\\nAttempts:[potential commands with explanations]\\nFinal Answer:```[command]```\"},{\"role\":\"user\",\"content\":\"" + processPromptString(prompt) + "\"}]";
+    std::string request_messages = "[{\"role\":\"system\",\"content\":\"CONTEXT BEGIN\\n\\n"+processPromptString(get_file_context())+"CONTEXT END\\n\\nPlease provide the osx command that answers the user's question. The format for your response is\\n\\nAttempts:[potential commands with explanations]\\nFinal Answer:```[command]```\\n\\nYou can use the information between \\\"CONTEXT BEGIN\\\" and \\\"CONTEXT END\\\" to aid in constructing your response\"},{\"role\":\"user\",\"content\":\"" + processPromptString(prompt) + "\"}]";
 
     std::string commandData = "{\n"
     "  \"model\": \"" + model_name + "\",\n"
