@@ -6,8 +6,9 @@ Welcome to CommanderChris! This guide will walk you through the steps to build a
 
 Before you begin, make sure you have the following prerequisites installed on your system:
 
-- CMake 🔧
-- Make 🛠️
+- [CMake](https://cmake.org/) 🔧
+- [Make](https://www.gnu.org/software/make/) 🛠️
+- [Boost](https://www.boost.org/) ⚡
 
 ## Getting Started 🌟
 
@@ -47,7 +48,7 @@ Before you begin, make sure you have the following prerequisites installed on yo
 4. Run CommanderChris:
 
    ```bash
-   ./CommanderChris
+   ./chris
    ```
 
 ## Contributing 💡
