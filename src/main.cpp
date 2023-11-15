@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
 
     display_command(command);
 
-    if(run_confirmation_ui()) std::cout << std::endl << exec(command) << std::endl;
+    if(command != "" && run_confirmation_ui()) std::cout << std::endl << exec(command) << std::endl;
 
     return 0;
 }
