@@ -60,7 +60,7 @@ jobs:
       run: |
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
         choco install curl
-        choco install boost
+        choco install boost-msvc-14.3
 
     - name: Set reusable strings
       id: strings
