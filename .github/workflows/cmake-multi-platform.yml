@@ -2,9 +2,8 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - 'v*'  # Trigger workflow on tag push matching v*, e.g., v1.0.0
 
 jobs:
   build:
@@ -20,15 +19,19 @@ jobs:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
+            artifact_name: chris-windows
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
+            artifact_name: chris-linux
           - os: ubuntu-latest
             c_compiler: clang
             cpp_compiler: clang++
+            artifact_name: chris-linux-clang
           - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
+            artifact_name: chris-macos
         exclude:
           - os: windows-latest
             c_compiler: gcc
@@ -79,14 +82,25 @@ jobs:
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
-    # Execute tests
-    #- name: Test
-    #  working-directory: ${{ steps.strings.outputs.build-output-dir }}
-    #  run: ctest --build-config ${{ matrix.build_type }}
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.artifact_name }}
+        path: ${{ steps.strings.outputs.build-output-dir }}/chris
 
-    # Run the executable if needed (Linux and macOS)
-    #- name: Run Application (Linux/macOS)
-    #  if: runner.os != 'Windows'
-    #  run: |
-    #    cd ${{ steps.strings.outputs.build-output-dir }}
-    #    ./chris
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download all artifacts
+      uses: actions/download-artifact@v2
+      with:
+        path: artifacts
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: artifacts/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
