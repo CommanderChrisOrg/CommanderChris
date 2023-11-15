@@ -6,8 +6,32 @@ Welcome to CommanderChris! This guide will walk you through the steps to build a
 
 Before you begin, make sure you have the following prerequisites installed on your system:
 
-- CMake 🔧
-- Make 🛠️
+- [CMake](https://cmake.org/) 🔧
+- [Make](https://www.gnu.org/software/make/) 🛠️
+- [Boost](https://www.boost.org/) ⚡
+
+### macOS 🍏
+- Open Terminal and run:
+  ```
+  brew install make cmake boost
+  ```
+
+### Windows 💻
+- For CMake, download and install from [CMake's official website](https://cmake.org/download/). Make sure to add it to the system PATH.
+- For Make and Boost:
+  - First, install Chocolatey from [Chocolatey's website](https://chocolatey.org/).
+  - Then, open Command Prompt and run:
+    ```
+    choco install make
+    ```
+  - Download Boost from [Boost's official website](https://www.boost.org/users/download/), extract the files, and place them in a directory of your choice.
+
+### Linux 🐧
+- Open Terminal and run:
+  ```
+  sudo apt-get install make cmake libboost-all-dev
+  ```
+  
 
 ## Getting Started 🌟
 
@@ -47,7 +71,7 @@ Before you begin, make sure you have the following prerequisites installed on yo
 4. Run CommanderChris:
 
    ```bash
-   ./CommanderChris
+   ./chris
    ```
 
 ## Contributing 💡
@@ -56,4 +80,4 @@ If you would like to contribute to CommanderChris, please open an issue or submi
 
 ## License 📄
 
-This project is licensed under the [MIT License](LICENSE).
+[TBD]
