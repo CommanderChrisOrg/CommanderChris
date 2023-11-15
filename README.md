@@ -10,6 +10,29 @@ Before you begin, make sure you have the following prerequisites installed on yo
 - [Make](https://www.gnu.org/software/make/) 🛠️
 - [Boost](https://www.boost.org/) ⚡
 
+### macOS 🍏
+- Open Terminal and run:
+  ```
+  brew install make cmake boost
+  ```
+
+### Windows 💻
+- For CMake, download and install from [CMake's official website](https://cmake.org/download/). Make sure to add it to the system PATH.
+- For Make and Boost:
+  - First, install Chocolatey from [Chocolatey's website](https://chocolatey.org/).
+  - Then, open Command Prompt and run:
+    ```
+    choco install make
+    ```
+  - Download Boost from [Boost's official website](https://www.boost.org/users/download/), extract the files, and place them in a directory of your choice.
+
+### Linux 🐧
+- Open Terminal and run:
+  ```
+  sudo apt-get install make cmake libboost-all-dev
+  ```
+  
+
 ## Getting Started 🌟
 
 1. Clone this repository to your local machine:
