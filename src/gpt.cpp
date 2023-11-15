@@ -62,6 +62,8 @@ std::string processCommandString(std::string str){
     findAndReplaceAll(str, "bash", "");
     findAndReplaceAll(str, "shell", "");
     findAndReplaceAll(str, "\\n", "\n");
+    str.erase(0, str.find_first_not_of("\n"));
+    str.erase(str.find_last_not_of("\n") + 1);
     return str;
 }
 
@@ -76,8 +78,6 @@ std::string getCommandFromPrompt(std::string context, std::string prompt){
     "}";
 
     std::string commandResponse = queryGPT(commandData);
-
-    std::cout << commandResponse << std::endl;
 
     // Try extracting command within triple backticks
     size_t answerIdx = commandResponse.find("Final Answer");
