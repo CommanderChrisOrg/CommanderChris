@@ -2,7 +2,8 @@
 
 Welcome to CommanderChris! This guide will walk you through the steps to build and run the application. 🛠️
 
-![demo](https://github.com/CommanderChrisOrg/CommanderChris/assets/43506607/d49843ea-6049-4b08-951f-be44e4a1d57d)
+![demo](https://github.com/CommanderChrisOrg/CommanderChris/assets/43506607/8f1b4fcc-35f0-4da3-9767-f036f27d16e8)
+
 
 
 
