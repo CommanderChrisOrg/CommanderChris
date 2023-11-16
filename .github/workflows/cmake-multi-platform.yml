@@ -12,14 +12,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]  # Removed windows-latest
         build_type: [Release]
-        c_compiler: [gcc, clang, cl]
+        c_compiler: [gcc, clang]  # Removed cl as it's specific to Windows
         include:
-          - os: windows-latest
-            c_compiler: cl
-            cpp_compiler: cl
-            artifact_name: chris-windows
+          # Commented out the Windows specific build
+          # - os: windows-latest
+          #   c_compiler: cl
+          #   cpp_compiler: cl
+          #   artifact_name: chris-windows
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
@@ -33,10 +34,11 @@ jobs:
             cpp_compiler: clang++
             artifact_name: chris-macos
         exclude:
-          - os: windows-latest
-            c_compiler: gcc
-          - os: windows-latest
-            c_compiler: clang
+          # Commented out the Windows specific exclusions
+          # - os: windows-latest
+          #   c_compiler: gcc
+          # - os: windows-latest
+          #   c_compiler: clang
           - os: ubuntu-latest
             c_compiler: cl
           - os: macos-latest
@@ -46,6 +48,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
+    # Archive the source code
+    - name: Archive source code
+      run: |
+        tar -czf source-code.tar.gz --exclude=.git .
+
+    # Upload the source code archive as an artifact
+    - name: Upload source code artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: source-code-${{ matrix.os }}
+        path: source-code.tar.gz
 
     # Install necessary dependencies for Ubuntu
     - name: Install dependencies (Ubuntu)
@@ -57,13 +71,13 @@ jobs:
       if: runner.os == 'macOS'
       run: brew install cmake boost curl
 
-    # Install necessary dependencies for Windows
-    - name: Install dependencies (Windows)
-      if: runner.os == 'Windows'
-      run: |
-        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-        choco install curl
-        choco install boost-msvc-14.3
+    # Commented out the Windows dependency installation step
+    # - name: Install dependencies (Windows)
+    #   if: runner.os == 'Windows'
+    #   run: |
+    #     choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+    #     choco install curl
+    #     choco install boost-msvc-14.3
 
     - name: Set reusable strings
       id: strings
@@ -93,11 +107,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
+    # Download all artifacts (binaries and source code archive)
     - name: Download all artifacts
       uses: actions/download-artifact@v2
       with:
         path: artifacts
 
+    # Create GitHub Release and attach artifacts
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
