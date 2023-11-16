@@ -1,6 +1,5 @@
 #include <sstream>
 #include <boost/filesystem.hpp>
-#include <boost/range/iterator_range.hpp>
 #include <boost/config.hpp>
 #include "context.hpp"
 
@@ -58,16 +57,16 @@ std::string get_os_context(){
         ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
         osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
         GetVersionEx((OSVERSIONINFO*)&osvi);
-        ss << "Operating System: Windows " << osvi.dwMajorVersion << "." << osvi.dwMinorVersion;
+        ss << "Operating System: Windows " << osvi.dwMajorVersion << "." << osvi.dwMinorVersion << std::endl;
         return ss.str();
     #else
         struct utsname unameData;
         if (uname(&unameData) == 0) {
-            ss << "Operating System: " << unameData.sysname << " " << unameData.release;
+            ss << "Operating System: " << unameData.sysname << " " << unameData.release << std::endl;
             return ss.str();
         }
-        return "Operating System: POSIX";
+        return "Operating System: POSIX\n";
     #endif
 }
 
-std::string get_context(){ return get_os_context() + "\n\n" + get_file_context(); }
+std::string get_context(){ return get_os_context() + "\n" + get_file_context(); }
