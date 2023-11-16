@@ -3,6 +3,6 @@
 
 #include <string>
 
-std::string get_file_context();
+std::string get_context();
 
 #endif

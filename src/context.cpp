@@ -1,5 +1,7 @@
+#include <sstream>
 #include <boost/filesystem.hpp>
 #include <boost/range/iterator_range.hpp>
+#include <boost/config.hpp>
 #include "context.hpp"
 
 using namespace boost::filesystem;
@@ -32,13 +34,40 @@ std::string get_file_context(){
     std::string ret = "";
 
     p = current_path().parent_path().parent_path();
-    ret += "files and directories in " + get_path_string(p) + ":\n" + get_dir_files(p) + "\n\n";
+    ret += "files and directories in " + get_path_string(p) + ":\n" + get_dir_files(p) + "\n";
 
     p = current_path().parent_path();
-    ret += "files and directories in " + get_path_string(p) + ":\n" + get_dir_files(p) + "\n\n";
+    ret += "files and directories in " + get_path_string(p) + ":\n" + get_dir_files(p) + "\n";
 
-     p = current_path();
-    ret += "files and directories in current directory (" + get_path_string(p) + "):\n" + get_dir_files(p) + "\n\n"; 
+    p = current_path();
+    ret += "files and directories in current directory (" + get_path_string(p) + "):\n" + get_dir_files(p); 
 
     return ret;
 }
+
+#ifdef BOOST_WINDOWS_API
+#include <windows.h>
+#else
+#include <sys/utsname.h>
+#endif
+
+std::string get_os_context(){
+    std::stringstream ss;
+    #ifdef BOOST_WINDOWS_API
+        OSVERSIONINFOEX osvi;
+        ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+        osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+        GetVersionEx((OSVERSIONINFO*)&osvi);
+        ss << "Operating System: Windows " << osvi.dwMajorVersion << "." << osvi.dwMinorVersion;
+        return ss.str();
+    #else
+        struct utsname unameData;
+        if (uname(&unameData) == 0) {
+            ss << "Operating System: " << unameData.sysname << " " << unameData.release;
+            return ss.str();
+        }
+        return "Operating System: POSIX";
+    #endif
+}
+
+std::string get_context(){ return get_os_context() + "\n\n" + get_file_context(); }
