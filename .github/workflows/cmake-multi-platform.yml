@@ -49,18 +49,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # Archive the source code
-    - name: Archive source code
-      run: |
-        tar -czf source-code.tar.gz --exclude=.git .
-
-    # Upload the source code archive as an artifact
-    - name: Upload source code artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: source-code-${{ matrix.os }}
-        path: source-code.tar.gz
-
     # Install necessary dependencies for Ubuntu
     - name: Install dependencies (Ubuntu)
       if: runner.os == 'Linux'
@@ -107,14 +95,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
-    # Download all artifacts (binaries and source code archive)
     - name: Download all artifacts
       uses: actions/download-artifact@v2
       with:
         path: artifacts
 
-    # Create GitHub Release and attach artifacts
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
