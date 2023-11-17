@@ -6,5 +6,5 @@ if ! grep -q "source ~/.chris_bash" ~/.bashrc; then
 fi
 
 if ! grep -q "source ~/.chris_bash" ~/.zshrc; then
-    echo -e "\nsource ~/.chris_bash" >> ~/.zshrc
+    echo -e "\nsource ~/.chris_zsh" >> ~/.zshrc
 fi

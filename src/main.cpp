@@ -1,10 +1,13 @@
 #include <iostream>
 #include <sstream>
+#include <fstream>
+#include <boost/filesystem.hpp>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 #include "gpt.hpp"
 
 using namespace ftxui;
+namespace fs=boost::filesystem;
 
 bool run_confirmation_ui() {
     auto screen = ScreenInteractive::TerminalOutput();
@@ -42,7 +45,17 @@ int main(int argc, char **argv) {
 
     display_command(command);
 
-    if(command != "" && run_confirmation_ui()){ std::cout << std::endl; system(command.c_str()); std::cout << std::endl; }
+    if(command == "") return 0;
+
+    if(run_confirmation_ui()){
+        fs::path lastCommandPath = fs::path(std::getenv("HOME")) / ".chris_last_command";
+        std::ofstream lastCommand(lastCommandPath.string());
+        lastCommand << command;
+
+        std::cout << std::endl;
+        system(command.c_str());
+        std::cout << std::endl;
+    }
 
     return 0;
 }
