@@ -1,5 +1,4 @@
 #!/bin/bash
-curl -O https://raw.githubusercontent.com/CommanderChrisOrg/CommanderChris/main/chris_bash.sh
-cat chris_bash.sh >> ~/.bashrc
-cat chris_bash.sh >> ~/.zshrc
-rm chris_bash.sh
+curl -o ~/.chris_bash https://raw.githubusercontent.com/CommanderChrisOrg/CommanderChris/main/.chris_bash
+echo "source ~/.chris_bash" >> ~/.bashrc
+echo "source ~/.chris_bash" >> ~/.zshrc
