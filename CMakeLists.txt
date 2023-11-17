@@ -25,13 +25,13 @@ FetchContent_MakeAvailable(spdlog)
 
 # ------------------------------------------------------------------------------
 
-project(CommanderChris
+project(chris
   LANGUAGES CXX
   VERSION 1.0.0
 )
 
-add_executable(CommanderChris src/main.cpp src/gpt.cpp src/context.cpp)
-target_include_directories(CommanderChris PRIVATE src)
+add_executable(chris src/main.cpp src/gpt.cpp src/context.cpp)
+target_include_directories(chris PRIVATE src)
 
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
@@ -39,7 +39,7 @@ include_directories(${CURL_INCLUDE_DIR})
 find_package(Boost COMPONENTS filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
-target_link_libraries(CommanderChris
+target_link_libraries(chris
   PRIVATE ftxui::screen
   PRIVATE ftxui::dom
   PRIVATE ftxui::component
