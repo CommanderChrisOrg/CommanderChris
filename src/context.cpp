@@ -1,4 +1,5 @@
 #include <sstream>
+#include <fstream>
 #include <boost/filesystem.hpp>
 #include <boost/config.hpp>
 #include "context.hpp"
@@ -69,4 +70,16 @@ std::string get_os_context(){
     #endif
 }
 
-std::string get_context(){ return get_os_context() + "\n" + get_file_context(); }
+std::string get_command_context(){
+    #ifndef BOOST_WINDOWS_API
+        std::string ret = "user command history:\n";
+        std::string command;
+        path historyPath = path(std::getenv("HOME")) / ".chris_history";
+        std::ifstream history(historyPath.string());
+        while(getline(history, command)) ret += command + "\n";
+        return ret;
+    #endif
+    return "";
+}
+
+std::string get_context(){ return get_os_context() + "\n" + get_command_context() + "\n" + get_file_context(); }
