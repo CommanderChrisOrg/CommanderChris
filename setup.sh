@@ -9,5 +9,3 @@ fi
 if ! grep -q "source ~/.chris_zsh" ~/.zshrc; then
     echo -e "\nsource ~/.chris_zsh" >> ~/.zshrc
 fi
-
-exec $SHELL
