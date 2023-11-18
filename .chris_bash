@@ -1,7 +1,7 @@
 function chris_with_cmd_history(){
 	history 15 | awk '{$1=""; print substr($0,2)}' > ~/.chris_history
 	chris "$@"
-	if test -f ~/.chris_last_command; then
+	if [ -f ~/.chris_last_command; ] then
 		history	-s $(<~/.chris_last_command)
 		rm ~/.chris_last_command
 	fi
