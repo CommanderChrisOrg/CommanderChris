@@ -36,7 +36,7 @@ target_include_directories(chris PRIVATE src)
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 
-find_package(Boost COMPONENTS filesystem REQUIRED)
+find_package(Boost COMPONENTS filesystem json REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
 target_link_libraries(chris
@@ -45,5 +45,5 @@ target_link_libraries(chris
   PRIVATE ftxui::component
   PRIVATE spdlog::spdlog
   ${CURL_LIBRARIES}
-  ${Boost_FILESYSTEM_LIBRARY}
+  ${Boost_LIBRARIES}
 )

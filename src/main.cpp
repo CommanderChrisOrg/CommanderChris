@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     }
 
     std::string command;
-    if(std::getenv("OPENAI_API_KEY")) command = getCommandFromPrompt(prompt.str());
+    if(std::getenv("OPENAI_API_KEY")) command = get_command_from_prompt(prompt.str());
     else { std::cerr << "ERROR: missing OpenAI API key\n\nyou can add your key with: export OPENAI_API_KEY=[your key]" << std::endl; return 1; }
 
     display_command(command);
@@ -48,9 +48,9 @@ int main(int argc, char **argv) {
     if(command == "") return 0;
 
     if(run_confirmation_ui()){
-        fs::path lastCommandPath = fs::path(std::getenv("HOME")) / ".chris_last_command";
-        std::ofstream lastCommand(lastCommandPath.string());
-        lastCommand << command;
+        fs::path last_command_path = fs::path(std::getenv("HOME")) / ".chris_last_command";
+        std::ofstream last_command(last_command_path.string());
+        last_command << command;
 
         std::cout << std::endl;
         system(command.c_str());

@@ -61,9 +61,9 @@ std::string get_os_context(){
         ss << "Operating System: Windows " << osvi.dwMajorVersion << "." << osvi.dwMinorVersion << std::endl;
         return ss.str();
     #else
-        struct utsname unameData;
-        if (uname(&unameData) == 0) {
-            ss << "Operating System: " << unameData.sysname << " " << unameData.release << std::endl;
+        struct utsname uname_data;
+        if (uname(&uname_data) == 0) {
+            ss << "Operating System: " << uname_data.sysname << " " << uname_data.release << std::endl;
             return ss.str();
         }
         return "Operating System: POSIX\n";
@@ -74,8 +74,8 @@ std::string get_command_context(){
     #ifndef BOOST_WINDOWS_API
         std::string ret = "user command history:\n";
         std::string command;
-        path historyPath = path(std::getenv("HOME")) / ".chris_history";
-        std::ifstream history(historyPath.string());
+        path history_path = path(std::getenv("HOME")) / ".chris_history";
+        std::ifstream history(history_path.string());
         while(getline(history, command)) ret += command + "\n";
         return ret;
     #endif
