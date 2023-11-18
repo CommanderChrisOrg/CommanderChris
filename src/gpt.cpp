@@ -68,7 +68,9 @@ std::string get_command_from_prompt(std::string prompt){
         {"messages", request_messages}
     };
 
-    json::object response_data = json::parse(query_gpt(json::serialize(command_data))).as_object();
+    std::string response_data_str = query_gpt(json::serialize(command_data));
+
+    json::object response_data = json::parse(response_data_str).as_object();
 
     std::string response = boost::json::value_to<std::string>(response_data.at("choices").as_array()[0].as_object().at("message").as_object().at("content"));
 
