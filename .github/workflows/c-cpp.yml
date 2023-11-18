@@ -17,9 +17,9 @@ jobs:
     - name: Install dependencies
       run: |
         wget https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.tar.gz
-        tar -xvzf boost_1_83_0.tar.gz
+        tar -xzf boost_1_83_0.tar.gz
         cd boost_1_83_0
-        /bootstrap.sh --prefix=/usr/local
+        ./bootstrap.sh --prefix=/usr/local
         ./b2
         sudo ./b2 install
         sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev
