@@ -1,6 +1,9 @@
 function chris_with_cmd_history(){
 	history -15 | awk '{$1=""; print substr($0,2)}' > ~/.chris_history
 	chris "$@"
-	print -s $(<~/.chris_last_command)
+	if [ -f "~/.chris_last_command" ]; then
+		print -s $(<~/.chris_last_command)
+		rm ~/.chris_last_command
+	fi
 }
 alias chris='chris_with_cmd_history'
