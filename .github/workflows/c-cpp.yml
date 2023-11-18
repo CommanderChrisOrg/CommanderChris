@@ -16,7 +16,8 @@ jobs:
     # Install necessary dependencies
     - name: Install dependencies
       run: |
-        sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev libboost1.81-dev
+        sudo add-apt-repository ppa:mhier/libboost-latest
+        sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev libboost-latest
     # Configure and build the project
     - name: Configure and Build
       run: |
