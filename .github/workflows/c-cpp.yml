@@ -16,8 +16,13 @@ jobs:
     # Install necessary dependencies
     - name: Install dependencies
       run: |
-        sudo add-apt-repository ppa:boost-latest/ppa
-        sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev libboost-all-dev
+        wget https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.tar.gz
+        tar -xvzf boost_1_83_0.tar.gz
+        cd boost_1_83_0
+        /bootstrap.sh --prefix=/usr/local
+        ./b2
+        sudo ./b2 install
+        sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev
 
     # Configure and build the project
     - name: Configure and Build
