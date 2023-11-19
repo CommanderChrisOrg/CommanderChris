@@ -34,7 +34,9 @@ Before you begin, make sure you have the following prerequisites installed on yo
 ### Linux 🐧
 - Open Terminal and run:
   ```
-  sudo apt-get install make cmake libboost-all-dev
+  sudo add-apt-repository ppa:mhier/libboost-latest
+  sudo apt update
+  sudo apt-get install make cmake boost1.83
   ```
   
 
