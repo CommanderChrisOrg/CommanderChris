@@ -1,28 +1,21 @@
-# Workflow name
 name: CMake on multiple platforms
 
-# Trigger the workflow on tag pushes that match the pattern v*
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*'  # Trigger workflow on tag push matching v*, e.g., v1.0.0
 
-# Define jobs
 jobs:
-  # Job for building the project
   build:
-    # Specify the OS to run the job on, based on the matrix
     runs-on: ${{ matrix.os }}
 
-    # Strategy for the build matrix
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]  # Operating systems to build on
-        build_type: [Release]  # Build type
-        c_compiler: [gcc, clang]  # C compilers
+        os: [ubuntu-latest, macos-latest]  # Using both Ubuntu and macOS
+        build_type: [Release]
+        c_compiler: [gcc, clang]
         include:
-          # Specific configurations for each matrix entry
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
@@ -31,16 +24,15 @@ jobs:
             c_compiler: clang
             cpp_compiler: clang++
             artifact_name: chris-linux-clang
-          - os: macos-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-            artifact_name: chris-macos
           - os: ubuntu-latest
             c_compiler: arm-linux-gnueabihf-gcc
             cpp_compiler: arm-linux-gnueabihf-g++
             artifact_name: chris-linux-arm
+          - os: macos-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+            artifact_name: chris-macos
         exclude:
-          # Exclude configurations that are not applicable
           - os: ubuntu-latest
             c_compiler: cl
           - os: macos-latest
@@ -48,33 +40,30 @@ jobs:
           - os: macos-latest
             c_compiler: cl
 
-    # Steps to execute in the build job
     steps:
     - uses: actions/checkout@v3  # Checkout the repository
 
-    # Install dependencies on Ubuntu
     - name: Install dependencies (Ubuntu)
       if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev libboost-all-dev
+      run: |
+        sudo add-apt-repository ppa:mhier/libboost-latest -y
+        sudo apt update
+        sudo apt-get install -y make cmake boost1.83 libcurl4-openssl-dev
 
-    # Install ARM cross-compiler on Ubuntu
     - name: Install ARM cross-compiler (Ubuntu)
       if: matrix.c_compiler == 'arm-linux-gnueabihf-gcc'
       run: sudo apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
 
-    # Install dependencies on macOS
     - name: Install dependencies (macOS)
       if: runner.os == 'macOS'
       run: brew install cmake boost curl
 
-    # Set reusable build directory path
     - name: Set reusable strings
       id: strings
       shell: bash
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    # Configure the project with CMake
     - name: Configure CMake
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
@@ -83,41 +72,37 @@ jobs:
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -S ${{ github.workspace }}
 
-    # Build the project
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
-    # Upload the built artifact
     - name: Upload build artifact
       uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.artifact_name }}
         path: ${{ steps.strings.outputs.build-output-dir }}/chris
 
-  # Job for creating a release and uploading artifacts
   release:
-    needs: build  # This job needs to wait for the build job to complete
-    runs-on: ubuntu-latest  # Run this job on Ubuntu
+    needs: build
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3  # Checkout the repository
+    - uses: actions/checkout@v3
 
-    # Download all built artifacts
     - name: Download all artifacts
       uses: actions/download-artifact@v2
       with:
         path: artifacts
 
-    # Create a GitHub release and upload the artifacts
     - name: Create and upload release
       id: create_release
       uses: softprops/action-gh-release@v1
       with:
-        name: Release ${{ github.ref }}  # Name of the release
-        tag_name: ${{ github.ref }}  # Tag name for the release
-        body: 'Release of version ${{ github.ref }}'  # Description/body of the release
+        name: Release ${{ github.ref }}
+        tag_name: ${{ github.ref }}
+        body: 'Release of version ${{ github.ref }}'
         files: |
           artifacts/chris-linux/*
           artifacts/chris-linux-clang/*
+          artifacts/chris-linux-arm/*
           artifacts/chris-macos/*
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
