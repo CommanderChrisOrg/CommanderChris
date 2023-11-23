@@ -1,26 +1,28 @@
+# Workflow name
 name: CMake on multiple platforms
 
+# Trigger the workflow on tag pushes that match the pattern v*
 on:
   push:
     tags:
-      - 'v*'  # Trigger workflow on tag push matching v*, e.g., v1.0.0
+      - 'v*'
 
+# Define jobs
 jobs:
+  # Job for building the project
   build:
+    # Specify the OS to run the job on, based on the matrix
     runs-on: ${{ matrix.os }}
 
+    # Strategy for the build matrix
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]  # Removed windows-latest
-        build_type: [Release]
-        c_compiler: [gcc, clang]  # Removed cl as it's specific to Windows
+        os: [ubuntu-latest, macos-latest]  # Operating systems to build on
+        build_type: [Release]  # Build type
+        c_compiler: [gcc, clang]  # C compilers
         include:
-          # Commented out the Windows specific build
-          # - os: windows-latest
-          #   c_compiler: cl
-          #   cpp_compiler: cl
-          #   artifact_name: chris-windows
+          # Specific configurations for each matrix entry
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
@@ -33,12 +35,12 @@ jobs:
             c_compiler: clang
             cpp_compiler: clang++
             artifact_name: chris-macos
+          - os: ubuntu-latest
+            c_compiler: arm-linux-gnueabihf-gcc
+            cpp_compiler: arm-linux-gnueabihf-g++
+            artifact_name: chris-linux-arm
         exclude:
-          # Commented out the Windows specific exclusions
-          # - os: windows-latest
-          #   c_compiler: gcc
-          # - os: windows-latest
-          #   c_compiler: clang
+          # Exclude configurations that are not applicable
           - os: ubuntu-latest
             c_compiler: cl
           - os: macos-latest
@@ -46,33 +48,33 @@ jobs:
           - os: macos-latest
             c_compiler: cl
 
+    # Steps to execute in the build job
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3  # Checkout the repository
 
-    # Install necessary dependencies for Ubuntu
+    # Install dependencies on Ubuntu
     - name: Install dependencies (Ubuntu)
       if: runner.os == 'Linux'
       run: sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev libboost-all-dev
 
-    # Install necessary dependencies for macOS
+    # Install ARM cross-compiler on Ubuntu
+    - name: Install ARM cross-compiler (Ubuntu)
+      if: matrix.c_compiler == 'arm-linux-gnueabihf-gcc'
+      run: sudo apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+
+    # Install dependencies on macOS
     - name: Install dependencies (macOS)
       if: runner.os == 'macOS'
       run: brew install cmake boost curl
 
-    # Commented out the Windows dependency installation step
-    # - name: Install dependencies (Windows)
-    #   if: runner.os == 'Windows'
-    #   run: |
-    #     choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-    #     choco install curl
-    #     choco install boost-msvc-14.3
-
+    # Set reusable build directory path
     - name: Set reusable strings
       id: strings
       shell: bash
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    # Configure the project with CMake
     - name: Configure CMake
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
@@ -81,28 +83,41 @@ jobs:
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -S ${{ github.workspace }}
 
+    # Build the project
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
+    # Upload the built artifact
     - name: Upload build artifact
       uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.artifact_name }}
         path: ${{ steps.strings.outputs.build-output-dir }}/chris
 
+  # Job for creating a release and uploading artifacts
   release:
-    needs: build
-    runs-on: ubuntu-latest
+    needs: build  # This job needs to wait for the build job to complete
+    runs-on: ubuntu-latest  # Run this job on Ubuntu
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3  # Checkout the repository
+
+    # Download all built artifacts
     - name: Download all artifacts
       uses: actions/download-artifact@v2
       with:
         path: artifacts
 
-    - name: Create GitHub Release
+    # Create a GitHub release and upload the artifacts
+    - name: Create and upload release
+      id: create_release
       uses: softprops/action-gh-release@v1
       with:
-        files: artifacts/*
+        name: Release ${{ github.ref }}  # Name of the release
+        tag_name: ${{ github.ref }}  # Tag name for the release
+        body: 'Release of version ${{ github.ref }}'  # Description/body of the release
+        files: |
+          artifacts/chris-linux/*
+          artifacts/chris-linux-clang/*
+          artifacts/chris-macos/*
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
