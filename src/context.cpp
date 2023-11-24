@@ -1,10 +1,8 @@
 #include <sstream>
 #include <fstream>
-#include <boost/filesystem.hpp>
-#include <boost/config.hpp>
 #include "context.hpp"
 
-using namespace boost::filesystem;
+using namespace std::filesystem;
 
 std::string get_path_string(path p){
     std::string ret;
@@ -45,7 +43,7 @@ std::string get_file_context(){
     return ret;
 }
 
-#ifdef BOOST_WINDOWS_API
+#ifdef _WIN32
 #include <windows.h>
 #else
 #include <sys/utsname.h>
@@ -53,7 +51,7 @@ std::string get_file_context(){
 
 std::string get_os_context(){
     std::stringstream ss;
-    #ifdef BOOST_WINDOWS_API
+    #ifdef _WIN32
         OSVERSIONINFOEX osvi;
         ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
         osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
@@ -71,7 +69,7 @@ std::string get_os_context(){
 }
 
 std::string get_command_context(){
-    #ifndef BOOST_WINDOWS_API
+    #ifndef _WIN32
         std::string ret = "user command history:\n";
         std::string command;
         path history_path = path(std::getenv("HOME")) / ".chris_history";

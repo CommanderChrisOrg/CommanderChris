@@ -1,27 +1,25 @@
 cmake_minimum_required (VERSION 3.11)
-
-# --- Fetch FTXUI --------------------------------------------------------------
 include(FetchContent)
 
 set(FETCHCONTENT_UPDATES_DISCONNECTED TRUE)
+
+# --- Fetch FTXUI --------------------------------------------------------------
+
 FetchContent_Declare(ftxui
   GIT_REPOSITORY https://github.com/ArthurSonzogni/ftxui
   GIT_TAG v5.0.0
 )
 
-FetchContent_GetProperties(ftxui)
-if(NOT ftxui_POPULATED)
-  FetchContent_Populate(ftxui)
-  add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
+FetchContent_MakeAvailable(ftxui)
 
-# --- Fetch spdlog -------------------------------------------------------------
-FetchContent_Declare(spdlog
-  GIT_REPOSITORY https://github.com/gabime/spdlog.git
-  GIT_TAG v1.12.0
+# --- Fetch json ---------------------------------------------------------------
+
+FetchContent_Declare(nlohmann_json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG v3.11.2
 )
 
-FetchContent_MakeAvailable(spdlog)
+FetchContent_MakeAvailable(nlohmann_json)
 
 # ------------------------------------------------------------------------------
 
@@ -36,14 +34,10 @@ target_include_directories(chris PRIVATE src)
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 
-find_package(Boost COMPONENTS filesystem json REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
-
 target_link_libraries(chris
   PRIVATE ftxui::screen
   PRIVATE ftxui::dom
   PRIVATE ftxui::component
-  PRIVATE spdlog::spdlog
+  PRIVATE nlohmann_json::nlohmann_json
   ${CURL_LIBRARIES}
-  ${Boost_LIBRARIES}
 )

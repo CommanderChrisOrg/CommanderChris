@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
-#include <boost/json.hpp>
+#include <nlohmann/json.hpp>
 #include "context.hpp"
 
-namespace json=boost::json;
+using json=nlohmann::json;
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
@@ -52,27 +52,27 @@ std::string clean_command_string(std::string str){
 std::string get_command_from_prompt(std::string prompt){
     std::string model_name = "gpt-4-1106-preview";  // Adjust this to your desired model
 
-    json::array request_messages {
-        json::object{
+    json request_messages =  {
+        {
             {"role", "system"},
             {"content", "CONTEXT BEGIN\n\n" + get_context() + "\nCONTEXT END\n\nPlease provide the command that answers the user's question. The format for your response is\n\nAttempts:[potential commands with explanations]\nFinal Answer:```[command]```\n\nYou can use the information between \"CONTEXT BEGIN\" and \"CONTEXT END\" to aid in constructing your response"}
         },
-        json::object{
+        {
             {"role", "user"},
             {"content", prompt}
         }
-    }; 
+    };
 
-    json::object command_data {
+    json command_data = {
         {"model", model_name},
         {"messages", request_messages}
     };
 
-    std::string response_data_str = query_gpt(json::serialize(command_data));
+    std::string response_data_str = query_gpt(command_data.dump());
 
-    json::object response_data = json::parse(response_data_str).as_object();
+    json response_data = json::parse(response_data_str);
 
-    std::string response = boost::json::value_to<std::string>(response_data.at("choices").as_array()[0].as_object().at("message").as_object().at("content"));
+    std::string response = response_data["choices"][0]["message"]["content"];
 
     // Try extracting command within triple backticks
     size_t answer_idx = response.find("Final Answer");
