@@ -16,7 +16,7 @@ jobs:
     # Install necessary dependencies
     - name: Install dependencies
       run: |
-        sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev g++
+        sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev
       
     # Configure and build the project
     - name: Configure and Build
