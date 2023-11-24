@@ -18,28 +18,6 @@ jobs:
       run: |
         sudo add-apt-repository ppa:mhier/libboost-latest
         sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev boost1.83
-
-    # Clang Format Lint Action
-    - name: Clang Format Lint
-      uses: DoozyX/clang-format-lint-action@v0.13
-      with:
-        source: '.'
-        exclude: './third_party ./external'
-        extensions: 'h,cpp,hpp'
-        clangFormatVersion: 12
-        inplace: True
-
-    # Committing clang-format changes
-    - name: Commit clang-format changes
-      if: github.event_name == 'pull_request'
-      uses: EndBug/add-and-commit@v4
-      with:
-        author_name: Clang Robot
-        author_email: robot@example.com
-        message: ':art: Committing clang-format changes'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     # Configure and build the project
     - name: Configure and Build
       run: |
