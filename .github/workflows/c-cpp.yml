@@ -13,10 +13,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    # Setup code to compile with g++17
+    - name: Setup g++17
+      uses: actions/setup-cpp@v2
+      with:
+        compiler: g++17
+
     # Install necessary dependencies
     - name: Install dependencies
       run: |
-        sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev g++
+        sudo apt-get update && sudo apt-get install -y cmake libcurl4-openssl-dev
       
     # Configure and build the project
     - name: Configure and Build
