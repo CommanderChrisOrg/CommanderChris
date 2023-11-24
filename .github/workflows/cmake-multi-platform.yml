@@ -84,16 +84,16 @@ jobs:
       with:
         path: artifacts
 
-    - name: Create and upload release
-      id: create_release
-      uses: softprops/action-gh-release@v1
-      with:
-        name: Release ${{ github.ref }}
-        tag_name: ${{ github.ref }}
-        body: 'Release of version ${{ github.ref }}'
-        files: |
-          artifacts/chris-linux/*
-          artifacts/chris-linux-clang/*
-          artifacts/chris-macos/*
+#    - name: Create and upload release
+#      id: create_release
+#      uses: softprops/action-gh-release@v1
+#      with:
+#        name: Release ${{ github.ref }}
+#        tag_name: ${{ github.ref }}
+#        body: 'Release of version ${{ github.ref }}'
+#        files: |
+#          artifacts/chris-linux/*
+#          artifacts/chris-linux-clang/*
+#          artifacts/chris-macos/*
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
