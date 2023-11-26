@@ -25,11 +25,10 @@ std::string query_gpt(const std::string& data) {
         headers = curl_slist_append(headers, "Content-Type: application/json");
         std::string authorizationHeader = "Authorization: Bearer ";
         authorizationHeader += std::getenv("OPENAI_API_KEY");
-        headers = curl_slist_append(headers, authorizationHeader.c_str());  // Replace with your key
+        headers = curl_slist_append(headers, authorizationHeader.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
         
         res = curl_easy_perform(curl);
         if(res != CURLE_OK) {
@@ -65,7 +64,8 @@ std::string get_command_from_prompt(std::string prompt){
 
     json command_data = {
         {"model", model_name},
-        {"messages", request_messages}
+        {"messages", request_messages},
+        {"max_tokens", 1000}
     };
 
     std::string response_data_str = query_gpt(command_data.dump());

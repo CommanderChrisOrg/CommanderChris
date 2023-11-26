@@ -36,7 +36,8 @@ find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 
 target_link_libraries(chris
-  PRIVATE ftxui::screen
+ PRIVATE
+  ftxui::screen
   PRIVATE ftxui::dom
   PRIVATE ftxui::component
   PRIVATE nlohmann_json::nlohmann_json
