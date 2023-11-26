@@ -43,3 +43,7 @@ target_link_libraries(chris
   PRIVATE nlohmann_json::nlohmann_json
   ${CURL_LIBRARIES}
 )
+
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME chris_exe)
+
+install(TARGETS chris DESTINATION /usr/local/bin)
