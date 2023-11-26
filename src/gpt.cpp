@@ -43,6 +43,8 @@ std::string query_gpt(const std::string& data) {
 }
 
 std::string clean_command_string(std::string str){
+    std::regex pattern("^(bash|shell|zsh|sh)\n");
+    if (std::regex_search(str, pattern)) str = std::regex_replace(input, pattern, "");
     str.erase(0, str.find_first_not_of("\n"));
     str.erase(str.find_last_not_of("\n") + 1);
     return str;
