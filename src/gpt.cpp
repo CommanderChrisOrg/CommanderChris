@@ -12,7 +12,7 @@ static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* use
     return size * nmemb;
 }
 
-std::string query_gpt(const std::string& data) {
+std::string query_gpt(const std::string& data, std::string api_key) {
     CURL* curl = curl_easy_init();
     CURLcode res;
     std::string readBuffer;
@@ -25,7 +25,7 @@ std::string query_gpt(const std::string& data) {
         struct curl_slist *headers = NULL;
         headers = curl_slist_append(headers, "Content-Type: application/json");
         std::string authorizationHeader = "Authorization: Bearer ";
-        authorizationHeader += std::getenv("OPENAI_API_KEY");
+        authorizationHeader += api_key;
         headers = curl_slist_append(headers, authorizationHeader.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         
@@ -51,7 +51,7 @@ std::string clean_command_string(std::string str){
     return str;
 }
 
-std::string get_command_from_prompt(std::string prompt){
+std::string get_command_from_prompt(std::string prompt, std::string api_key){
     std::string model_name = "gpt-4-1106-preview";  // Adjust this to your desired model
 
     json request_messages =  {
@@ -71,7 +71,7 @@ std::string get_command_from_prompt(std::string prompt){
         {"max_tokens", 1000}
     };
 
-    std::string response_data_str = query_gpt(command_data.dump());
+    std::string response_data_str = query_gpt(command_data.dump(), api_key);
 
     json response_data = json::parse(response_data_str);
 

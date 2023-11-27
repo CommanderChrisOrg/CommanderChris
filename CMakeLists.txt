@@ -44,6 +44,10 @@ target_link_libraries(chris
   ${CURL_LIBRARIES}
 )
 
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME chris_exe)
+if(API_KEY)
+  target_compile_definitions(chris PRIVATE API_KEY="${API_KEY}")
+endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME chris_exec)
 
 install(TARGETS chris DESTINATION /usr/local/bin)
