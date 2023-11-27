@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]  # Using both Ubuntu and macOS
+        os: [ubuntu-latest, macos-11]  # Using both Ubuntu and macOS
         build_type: [Release]
         c_compiler: [gcc, clang]
         include:
