@@ -69,7 +69,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.artifact_name }}
-        path: ${{ steps.strings.outputs.build-output-dir }}/chris
+        path: ${{ steps.strings.outputs.build-output-dir }}/chris_exec
 
   release:
     needs: build
