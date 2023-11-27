@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]  # Using both Ubuntu and macOS
+        os: [ubuntu-latest, macos-11]  # Using both Ubuntu and macOS
         build_type: [Release]
         c_compiler: [gcc, clang]
         include:
@@ -24,16 +24,16 @@ jobs:
             c_compiler: clang
             cpp_compiler: clang++
             artifact_name: chris-linux-clang
-          - os: macos-latest
+          - os: macos-11
             c_compiler: clang
             cpp_compiler: clang++
             artifact_name: chris-macos
         exclude:
           - os: ubuntu-latest
             c_compiler: cl
-          - os: macos-latest
+          - os: macos-11
             c_compiler: gcc
-          - os: macos-latest
+          - os: macos-11
             c_compiler: cl
 
     steps:
