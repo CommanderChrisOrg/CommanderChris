@@ -63,7 +63,7 @@ jobs:
         -S ${{ github.workspace }}
 
     - name: Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+      run: cmake -D API_KEY="${{ secrets.API_KEY }}" --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
     - name: Upload build artifact
       uses: actions/upload-artifact@v2
@@ -81,17 +81,3 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         path: artifacts
-
-#    - name: Create and upload release
-#      id: create_release
-#      uses: softprops/action-gh-release@v1
-#      with:
-#        name: Release ${{ github.ref }}
-#        tag_name: ${{ github.ref }}
-#        body: 'Release of version ${{ github.ref }}'
-#        files: |
-#          artifacts/chris-linux/*
-#          artifacts/chris-linux-clang/*
-#          artifacts/chris-macos/*
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
