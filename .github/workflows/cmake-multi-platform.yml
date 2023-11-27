@@ -24,7 +24,7 @@ jobs:
             c_compiler: clang
             cpp_compiler: clang++
             artifact_name: chris-linux-clang
-          - os: macos-latest
+          - os: macos-11
             c_compiler: clang
             cpp_compiler: clang++
             artifact_name: chris-macos
