@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
     #if defined(API_KEY)
         api_key = API_KEY;
     #else
-        if(std::getenv("OPENAI_API_KEY")) api_key = get_command_from_prompt(prompt.str());
+        if(std::getenv("OPENAI_API_KEY")) api_key = std::getenv("OPENAI_API_KEY");
         else { std::cerr << "ERROR: missing OpenAI API key\n\nyou can add your key with: export OPENAI_API_KEY=[your key]" << std::endl; return 1; } 
     #endif
 
